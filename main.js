@@ -2,14 +2,39 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
+const errorSide = document.getElementById('modal')
+errorSide.classList = ('hidden')
+const likes = document.getElementsByClassName('like-glyph')
+
+for (const btn of likes){
+  btn.addEventListener('click', () => {
+
+    //gives you are success response using then method 
+    mimicServerCall()
+    .then(() => {
+   if (btn.textContent === EMPTY_HEART){btn.textContent = FULL_HEART;
+  btn.classList = ('activated-heart') 
+    }
+
+    else{
+      btn.textContent = EMPTY_HEART;
+      btn.classList = '';
+    }
+   })
+
+    //catch error method
+    .catch((isRandomFailure) => {
+      errorSide.classList = ''
+      errorSide.textContent = isRandomFailure;
+      setTimeout(() =>
+        errorSide.classList = 'hidden', 3000)
+    })
+  })
+}
 
 
 
-
-//------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
-//------------------------------------------------------------------------------
 
 function mimicServerCall(url="http://mimicServer.example.com", config={}) {
   return new Promise(function(resolve, reject) {
@@ -23,3 +48,4 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
     }, 300);
   });
 }
+
